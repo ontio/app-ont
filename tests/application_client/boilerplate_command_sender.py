@@ -27,8 +27,8 @@ class P2(IntEnum):
 class InsType(IntEnum):
     SIGN_TX = 0x02
     GET_VERSION = 0x03
-    GET_APP_NAME = 0x04
-    GET_PUBLIC_KEY = 0x05
+    GET_PUBLIC_KEY = 0x04
+    GET_APP_NAME = 0x05
     SIGN_PERSONAL_MESSAGE = 0x07
 
 class Errors(IntEnum):
