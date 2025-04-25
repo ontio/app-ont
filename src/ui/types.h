@@ -9,7 +9,17 @@
 #define CONTRACT_ADDRESS   "Contract Address"
 #define PERCENTAGE         "%"
 #define NBGL_MSG           "Message"
+#if defined(TARGET_STAX) || defined(TARGET_FLEX)
 #define PEER_PUBKEY        "Node Operation Public Key"
+#define PEER_INCENTIVE     "Incentive Sharing Ratio (Node)"
+#define USER_INCENTIVE     "Incentive Sharing Ratio (User)"
+#define NODE_AMOUNT        "Number of Remaining Nodes"
+#else
+#define PEER_PUBKEY        "Node OP. PK"
+#define PEER_INCENTIVE     "Node INCTV. Ratio"
+#define USER_INCENTIVE     "User INCTV. Ratio"
+#define NODE_AMOUNT        "Remaining Nodes"
+#endif
 #define WITHDRAW_AMOUNT    "Withdraw Amount"
 #define STAKE_AMOUNT       "Stake Amount"
 #define UNSTAKE_AMOUNT     "Unstake Amount"
@@ -17,10 +27,7 @@
 #define STAKE_FEE          "Staking Fee"
 #define STAKE_FEE_ONG      "500 ONG"
 #define MAX_AUTHORIZE      "Allowed User Stake"
-#define PEER_INCENTIVE     "Incentive Sharing Ratio (Node)"
-#define USER_INCENTIVE     "Incentive Sharing Ratio (User)"
 #define STAKE_ADDRESS      "Stake Address"
-#define NODE_AMOUNT        "Number of Remaining Nodes"
 
 #define BLIND_SIGN_TX      "Blind Signing Transaction"
 #define VERIFY_ONT_ADDRESS "Verify Ontology Address"
