@@ -17,7 +17,7 @@ The application interface can be accessed over HID or BLE
 
 ## APDUs
 
-### Get Ont Public Address
+### Get Ontology Public Address
 
 #### Description
 
@@ -29,7 +29,7 @@ This command retrieves the public key corresponding to a specified BIP-32 deriva
 
 | CLA | INS   | P1                                                 | P2    | Lc       | Le       |
 | --- | ---   | ---                                                | ---   | ---      | ---      |
-| 80  |  05   |  00 : return address                               | 00    | variable | variable |
+| 80  |  04   |  00 : return address                               | 00    | variable | variable |
 |     |       |  01 : display address and confirm before returning |       |          |          |
 
 ##### `Input data`
@@ -126,44 +126,6 @@ This command signs a personal message using a specified BIP-32 derivation path a
 | Signature                                            | variable |
 | v                                                    | 1        |
 
-### Sign OEP-4 Transaction
-
-#### Description
-
-This command signs an OEP-4 transaction using a specified BIP-32 derivation path after user validation of the transaction parameters on the device. The input is an RLP-encoded transaction, streamed to the device in chunks of up to 255 bytes.
-
-#### Coding
-
-##### `Command`
-
-| CLA | INS  | P1                   | P2                                    | Lc       | Le       |
-| --- | ---  | ---                  | ---                                   | ---      | ---      |
-| 80  | 08   |  00-FF : chunk index | 00 : last OEP-4 transaction data block | variable | variable |
-|     |      |                      | 80 : subsequent OEP-4 transaction data block |    |          |
-
-##### `Input data (first OEP-4 transaction data block)`
-
-| Description                                          | Length   |
-| ---                                                  | ---      |
-| Number of BIP 32 derivations to perform (max 10)     | 1        |
-| First derivation index (little endian)               | 4        |
-| ...                                                  | 4        |
-| Last derivation index (little endian)                | 4        |
-
-##### `Input data (other transaction data block)`
-
-| Description                                          | Length   |
-| ---                                                  | ---      |
-| Transaction chunk                                    | variable |
-
-##### `Output data`
-
-| Description                                          | Length   |
-| ---                                                  | ---      |
-| Signature length                                     | 1        |
-| Signature                                            | variable |
-| v                                                    | 1        |
-
 ### Get Application Version
 
 #### Description
@@ -202,7 +164,7 @@ This command retrieves the name of the Ontology application installed on the dev
 
 | CLA | INS | P1  | P2  | Lc   | Le |
 | --- | --- | --- | --- | ---  | ---|
-| 80  | 04  | 00  | 00  | 00   | 04 |
+| 80  | 05  | 00  | 00  | 00   | 04 |
 
 ##### `Input data`
 
