@@ -1,6 +1,6 @@
 {
     "ledgerDevTools.appSettings": {
-        "selectedDevice": "Nano S Plus",
+        "selectedDevice": "Stax",
         "testsList": [
             "test_sign_add_init_pos_tx_short_tx",
             "test_sign_add_init_pos_tx_refused",
