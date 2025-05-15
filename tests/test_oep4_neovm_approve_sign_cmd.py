@@ -26,7 +26,7 @@ def test_sign_oep4_neo_vm_approve_tx_short_tx(backend, scenario_navigator):
 
     # Create the oep4 transaction that will be sent to the device for signing
     ope4_transaction = Transaction(
-        rawtx = "00d10d06acaac409000000000000204e000000000000f65049e55b9d17bb039d02de7bb9a630a3196cfb4c021f4e14f65049e55b9d17bb039d02de7bb9a630a3196cfb14f65049e55b9d17bb039d02de7bb9a630a3196cfb53c107617070726f766567ff92a1a3418d53684005af98d5f1add05f15ed1900"
+        rawtx = "00d1517fce43c409000000000000204e000000000000ae6393b337e4a8d856ec00d75af134fdcd6bfe294d036b531414e7f1d24e2d3bb7fa3051c732507ee74753756ff314ae6393b337e4a8d856ec00d75af134fdcd6bfe2953c107617070726f7665676d03a16843e61e5d96d389e178717ed57f9da4e500"
     ).serialize()
 
     # Send the sign device instruction.
@@ -55,7 +55,7 @@ def test_sign_oep4_neo_vm_approve_tx_refused(backend, scenario_navigator):
     _, pub_key, _, _ = unpack_get_public_key_response(rapdu.data)
 
     oep4_transaction = Transaction(
-        rawtx = "00d10d06acaac409000000000000204e000000000000f65049e55b9d17bb039d02de7bb9a630a3196cfb4c021f4e14f65049e55b9d17bb039d02de7bb9a630a3196cfb14f65049e55b9d17bb039d02de7bb9a630a3196cfb53c107617070726f766567ff92a1a3418d53684005af98d5f1add05f15ed1900"
+        rawtx = "00d2d7972568c409000000000000204e000000000000ae6393b337e4a8d856ec00d75af134fdcd6bfe2955cd841ff217c68dc2faf8106368c5577b1204ece94007617070726f7665ae6393b337e4a8d856ec00d75af134fdcd6bfe29e7f1d24e2d3bb7fa3051c732507ee74753756ff36b53140000000000000000000000000000"
     ).serialize()
 
     with pytest.raises(ExceptionRAPDU) as e:

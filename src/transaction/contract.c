@@ -155,15 +155,13 @@ void get_tx_payload(payload_t *storage) {
     storage[3].ticker = "WING";
     get_neovm_oep4_token_methods((tx_method_signature_t *) storage[3].methods);
 
-    // #ifdef DEBUG
-    memcpy(storage[4].contract_addr, WTK_ADDR, ADDRESS_SCRIPT_HASH_LEN);
+    memcpy(storage[4].contract_addr, STONT_ADDR, ADDRESS_SCRIPT_HASH_LEN);
     storage[4].token_decimals = 9;
-    storage[4].ticker = "";
+    storage[4].ticker = "STONT";
     get_wasmvm_oep4_token_methods((tx_method_signature_t *) storage[4].methods);
 
-    memcpy(storage[5].contract_addr, MYT_ADDR, ADDRESS_SCRIPT_HASH_LEN);
-    storage[5].token_decimals = 18;
-    storage[5].ticker = "";
+    memcpy(storage[5].contract_addr, MBL_ADDR, ADDRESS_SCRIPT_HASH_LEN);
+    storage[5].token_decimals = 8;
+    storage[5].ticker = "MBL";
     get_neovm_oep4_token_methods((tx_method_signature_t *) storage[5].methods);
-    // #endif
 }
