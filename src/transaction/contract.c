@@ -157,7 +157,7 @@ void get_tx_payload(payload_t *storage) {
 
     memcpy(storage[4].contract_addr, STONT_ADDR, ADDRESS_SCRIPT_HASH_LEN);
     storage[4].token_decimals = 9;
-    storage[4].ticker = "STONT";
+    storage[4].ticker = "stONT";
     get_wasmvm_oep4_token_methods((tx_method_signature_t *) storage[4].methods);
 
     memcpy(storage[5].contract_addr, MBL_ADDR, ADDRESS_SCRIPT_HASH_LEN);
