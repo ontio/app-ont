@@ -32,6 +32,7 @@
 #include "sw.h"
 #include "display.h"
 #include "send_response.h"
+#include "../transaction/utils.h"
 
 int handler_get_public_key(buffer_t *cdata, bool display) {
     explicit_bzero(&G_context, sizeof(G_context));
@@ -40,6 +41,10 @@ int handler_get_public_key(buffer_t *cdata, bool display) {
 
     if (!buffer_read_u8(cdata, &G_context.bip32_path_len) ||
         !buffer_read_bip32_path(cdata, G_context.bip32_path, (size_t) G_context.bip32_path_len)) {
+        return io_send_sw(SW_WRONG_DATA_LENGTH);
+    }
+
+    if (!is_valid_bip44_prefix(G_context.bip32_path, G_context.bip32_path_len)) {
         return io_send_sw(SW_WRONG_DATA_LENGTH);
     }
 

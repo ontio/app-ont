@@ -109,6 +109,9 @@ static bool handle_params(transaction_t *tx,
             amout_item = WITHDRAW_AMOUNT;
             total_amount_item = TOTAL_PLUS WITHDRAW_AMOUNT;
         }
+        if (pubkey_num > UINT8_MAX) {
+            return false;
+        }
 
         size_t curr = *nbPairs;
         for (uint8_t i = 0; i < pubkey_num && i < MAX_PUBKEY_DISPLAY; i++) {
@@ -246,7 +249,11 @@ static int ui_display_bs_transaction() {
                                    &ICON_APP_ONTOLOGY,
                                    BLIND_SIGNING_TITLE,
                                    NULL,
+#ifdef SCREEN_SIZE_WALLET
                                    BLIND_SIGNING_CONTENT,
+#else
+                                    NULL,
+#endif
                                    NULL,
                                    review_choice);
     return 0;
@@ -272,7 +279,11 @@ static int ui_display_normal_transaction() {
                        &ICON_APP_ONTOLOGY,
                        method->title,
                        NULL,
+#ifdef SCREEN_SIZE_WALLET
                        method->finish_title,
+#else
+                        NULL,
+#endif
                        review_choice);
     return 0;
 }

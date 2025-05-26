@@ -297,6 +297,11 @@ static parser_status_e transaction_deserialize_method(buffer_t *buf, transaction
             return PARSING_BYTECODE_WRONG;
     }
 
+    // Validate sEnd to prevent underflow
+    if (sEnd < sBegin || sEnd > buf->size || sEnd < sBegin + (ARRAY_LENGTH(OPCODE_PACK) - 2)) {
+        return PARSING_BYTECODE_WRONG;
+    }
+
     size_t method_intent_length = 0;
     size_t cur = 0;
     for (size_t i = sEnd - (ARRAY_LENGTH(OPCODE_PACK) - 2); i >= sBegin; i--) {

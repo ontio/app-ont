@@ -57,3 +57,6 @@ bool convert_param_amount_to_chars(tx_parameter_t *param,
 static inline bool methodcmp(const tx_parameter_t *param, const char *method_name) {
     return param->len == strlen(method_name) && memcmp(param->data, method_name, param->len) == 0;
 }
+
+// Validate BIP-32 path prefix (44'/1024' or 44'/888')
+bool is_valid_bip44_prefix(uint32_t *path, uint8_t path_len);
