@@ -150,7 +150,11 @@ int ui_display_message() {
                        &ICON_APP_ONTOLOGY,
                        PERSONAL_MSG_TITLE,
                        NULL,
+#ifdef SCREEN_SIZE_WALLET
                        PERSONAL_MSG_CONTENT,
+#else
+                       NULL,
+#endif
                        personal_msg_review_choice);
 
     return 0;

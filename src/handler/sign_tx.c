@@ -47,6 +47,9 @@ int handler_sign_tx(buffer_t *cdata, uint8_t chunk, bool more) {
                                     (size_t) G_context.bip32_path_len)) {
             return io_send_sw(SW_WRONG_DATA_LENGTH);
         }
+        if (!is_valid_bip44_prefix(G_context.bip32_path, G_context.bip32_path_len)) {
+            return io_send_sw(SW_WRONG_DATA_LENGTH);
+        }
         return io_send_sw(SW_OK);
 
     } else {  // parse transaction

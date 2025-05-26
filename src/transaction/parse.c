@@ -107,6 +107,12 @@ static bool parse_pk_amount_pairs(buffer_t *buf, tx_parameter_t *pairs, size_t *
         return false;
     }
 
+    // Check if pks_num will cause out-of-bounds access
+    if (pks_num > (PARAMETERS_MAX_NUM - 1) / 2) { // Need pks_num * 2 + 1 <= PARAMETERS_MAX_NUM
+        return false;
+    }
+
+
     for (size_t i = 1; i <= pks_num; i++) {
         if (!parse_pk(buf, &pairs[i]) ||
             !parse_check_constant(buf, OPCODE_PARAM_END, ARRAY_LENGTH(OPCODE_PARAM_END))) {

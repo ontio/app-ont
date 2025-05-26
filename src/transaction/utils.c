@@ -22,6 +22,9 @@
 #define P64_R              6                       // 2^64 % 10
 #define P64_Q              1844674407370955161ULL  // 2^64 / 10
 
+#define BIP44_COIN_TYPE_1024 0x80000400 // 1024' (hardened)
+#define BIP44_COIN_TYPE_888  0x80000378 // 888' (hardened)
+#define BIP44_PURPOSE        0x8000002C // 44' (hardened)
 static bool convert_bytes_to_uint64_le(const uint8_t *amount, const size_t len, uint64_t *out) {
     if (amount == NULL || out == NULL) {
         return false;
@@ -49,7 +52,7 @@ static bool process_precision(const char *input, int precision, char *output, si
     size_t len = strlen(input);
     if (len == 0) {  // Handle empty string
         if (output_len > 1)
-            strlcpy(output, "0", sizeof(output));
+            snprintf(output, output_len, "0");
         else if (output_len > 0)
             output[0] = '\0';
         return false;
@@ -227,4 +230,13 @@ bool convert_param_amount_to_chars(tx_parameter_t *param,
     return (has_prefix || param->len == 2 * sizeof(uint64_t)) &&
             convert_params_to_uint128_le(param, has_prefix, &low, &high) &&
             format_fpu128_trimmed(amount, amount_len, low, high, decimals);
+}
+
+bool is_valid_bip44_prefix(uint32_t *path, uint8_t path_len) {
+    if (path_len < 2) { // Need at least purpose and coin type
+        return false;
+    }
+    // Check for 44' (purpose) followed by 1024' or 888' (coin type)
+    return path[0] == BIP44_PURPOSE &&
+           (path[1] == BIP44_COIN_TYPE_1024 || path[1] == BIP44_COIN_TYPE_888);
 }
