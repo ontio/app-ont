@@ -1,15 +1,25 @@
 cmake_minimum_required(VERSION 3.10)
-
 project(OntFuzzer VERSION 2.0.0 LANGUAGES C)
+
 
 set(CMAKE_C_STANDARD 11)
 
-# BOLOS SDK
+# BOLOS SDK path from environment
 set(BOLOS_SDK $ENV{BOLOS_SDK})
-add_compile_definitions(IO_HID_EP_LENGTH=64)
 
-add_compile_definitions(HAVE_ECC HAVE_HASH HAVE_SHA256 HAVE_RIPEMD160)
-include_directories(.
+# Compile-time definitions
+add_compile_definitions(
+    IO_HID_EP_LENGTH=64
+    HAVE_ECC
+    HAVE_HASH
+    HAVE_SHA256
+    HAVE_RIPEMD160
+    HAVE_AES
+)
+
+# Include directories
+include_directories(
+    .
     ../src/lib
     "${BOLOS_SDK}/include"
     "${BOLOS_SDK}/lib_standard_app"
@@ -23,25 +33,20 @@ include_directories(.
     "${CMAKE_CURRENT_SOURCE_DIR}/../src/transaction"
 )
 
+# Optimization and debug
 add_compile_options(-g -ggdb2 -O3)
 
-# Build with code coverage generation
-if(CODE_COVERAGE)
-    if(CMAKE_C_COMPILER_ID MATCHES "(Apple)?[Cc]lang")
-        add_compile_options(-fprofile-instr-generate -fcoverage-mapping)
-        add_link_options(-fprofile-instr-generate -fcoverage-mapping)
-    elseif(CMAKE_C_COMPILER_ID MATCHES "GNU")
-        add_compile_options(-fprofile-arcs -ftest-coverage)
-        link_libraries(gcov)
-    else()
-        message(FATAL_ERROR "Unsupported compiler used with code coverage generation")
-    endif()
-endif()
-
-# Fuzzer target
+# Fuzz source files
 set(APP_SRC_DIR "../src")
 
 set(APP_SOURCES
+    ${BOLOS_SDK}/lib_standard_app/read.c
+    ${BOLOS_SDK}/lib_standard_app/varint.c
+    ${BOLOS_SDK}/lib_standard_app/write.c
+    ${BOLOS_SDK}/lib_standard_app/bip32.c
+    ${BOLOS_SDK}/lib_standard_app/buffer.c
+     ${BOLOS_SDK}/src/syscalls.c
+    ${BOLOS_SDK}/src/ledger_assert.c
     ${APP_SRC_DIR}/transaction/deserialize.c
     ${APP_SRC_DIR}/transaction/deserialize.h
     ${APP_SRC_DIR}/transaction/contract.c
@@ -51,14 +56,18 @@ set(APP_SOURCES
     ${APP_SRC_DIR}/transaction/utils.c
     ${APP_SRC_DIR}/transaction/utils.h
     ${APP_SRC_DIR}/transaction/tx_types.h
+    mock_syscalls.c
 )
 
-add_executable(fuzz_message
+# Fuzzer target
+add_executable(fuzz_tx_parser
     fuzz_tx_parser.c
     ${APP_SOURCES}
 )
 
+# Add sanitizer flags (let clang auto-detect runtime paths)
+target_compile_options(fuzz_tx_parser PUBLIC -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined)
+target_link_options(fuzz_tx_parser PUBLIC -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined)
 
-target_include_directories(fuzz_message PUBLIC ../src)
-target_compile_options(fuzz_message PUBLIC -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined)
-target_link_options(fuzz_message PUBLIC -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined)
+# Include project headers
+target_include_directories(fuzz_tx_parser PUBLIC ../src)
