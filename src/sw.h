@@ -65,10 +65,14 @@
  */
 #define SW_PERSONAL_MSG_PARSING_FAIL 0xB009
 /**
- * Status word for wrong personal msg length.
- */
-#define SW_WRONG_PERSONAL_MSG_LENGTH 0xB00A
-/**
  * Status word for invalid transaction.
  */
-#define SW_INVALID_TRANSACTION 0xB00B
+#define SW_INVALID_TRANSACTION 0xB00A
+/**
+ * Status word for fail of msg hash.
+ */
+#define SW_HASH_FAILED 0xB00B
+/**
+ * Status word for invalid path.
+ */
+#define SW_INVALID_PATH 0xB00C
