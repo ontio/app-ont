@@ -49,9 +49,9 @@
  */
 #define SW_TX_PARSING_FAIL 0xB005
 /**
- * Status word for fail of transaction hash.
+ * Status word for fail of hash.
  */
-#define SW_TX_HASH_FAIL 0xB006
+#define SW_HASH_FAIL 0xB006
 /**
  * Status word for bad state.
  */
@@ -69,10 +69,6 @@
  */
 #define SW_INVALID_TRANSACTION 0xB00A
 /**
- * Status word for fail of msg hash.
- */
-#define SW_HASH_FAILED 0xB00B
-/**
  * Status word for invalid path.
  */
-#define SW_INVALID_PATH 0xB00C
+#define SW_INVALID_PATH 0xB00B

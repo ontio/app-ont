@@ -99,7 +99,7 @@ static int handler_hash_tx_and_display_tx(bool is_blind_signing) {
 
     explicit_bzero(&second_hash, sizeof(second_hash));
     if (!res) {
-        return io_send_sw(SW_TX_HASH_FAIL);
+        return io_send_sw(SW_HASH_FAIL);
     } else {
         G_context.state = STATE_PARSED;
         return ui_display_transaction(is_blind_signing);

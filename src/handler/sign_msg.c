@@ -82,7 +82,7 @@ int handler_sign_message(buffer_t *cdata, uint8_t chunk, bool more) {
                                G_context.msg_info.raw_msg,
                                G_context.msg_info.raw_msg_len) != CX_OK ||
                 cx_hash_final((cx_hash_t *) &cx_sha256, G_context.msg_info.m_hash) != CX_OK) {
-                return io_send_sw(SW_HASH_FAILED);
+                return io_send_sw(SW_HASH_FAIL);
             }
 
             PRINTF("Hash: %.*H\n", sizeof(G_context.msg_info.m_hash), G_context.msg_info.m_hash);

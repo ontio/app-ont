@@ -43,13 +43,12 @@ class Errors(IntEnum):
     SW_DISPLAY_AMOUNT_FAIL     = 0xB003
     SW_WRONG_TX_LENGTH         = 0xB004
     SW_TX_PARSING_FAIL         = 0xB005
-    SW_TX_HASH_FAIL            = 0xB006
+    SW_HASH_FAIL            = 0xB006
     SW_BAD_STATE               = 0xB007
     SW_SIGNATURE_FAIL          = 0xB008
     SW_PERSONAL_MSG_PARSING_FAIL = 0xB009
     SW_INVALID_TRANSACTION     = 0xB00A
-    SW_HASH_FAILED            = 0xB00B
-    SW_INVALID_PATH           = 0xB00C
+    SW_INVALID_PATH           = 0xB00B
 
 
 def split_message(message: bytes, max_size: int) -> List[bytes]:
