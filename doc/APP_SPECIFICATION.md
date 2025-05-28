@@ -195,9 +195,10 @@ The following standard Status Words are returned for all APDUs.
 |   B003   | SW_DISPLAY_AMOUNT_FAIL      | Amount conversion to string failed                    |
 |   B004   | SW_WRONG_TX_LENGTH          | Wrong raw transaction length                          |
 |   B005   | SW_TX_PARSING_FAIL          | Failed to parse raw transaction                       |
-|   B006   | SW_TX_HASH_FAIL          | Failed to compute hash digest of raw transaction      |
+|   B006   | SW_HASH_FAIL          | Failed to compute hash digest of raw transaction or msg      |
 |   B007   | SW_BAD_STATE                | Security issue with bad state                         |
 |   B008   | SW_SIGNATURE_FAIL           | Signature of data(tx or personal msg) failed            |
 |   B009   | SW_PERSONAL_MSG_PARSING_FAIL  | Failed to parse personal msg                            |
-|   B00A   | SW_PERSONAL_MSG_HASH_FAIL     | Failed to compute hash digest of personal msg           |
-|   B00B   | SW_INVALID_TRANSACTION  | Invalid transaction                              |
+|   B00A   | SW_INVALID_TRANSACTION  | Invalid transaction                              |
+|   B00B   | SW_HASH_FAILED  | Msg hash failed                              |
+|   B00C   | SW_INVALID_PATH  | Invalid path                              |

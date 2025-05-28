@@ -47,6 +47,9 @@ int handler_sign_tx(buffer_t *cdata, uint8_t chunk, bool more) {
                                     (size_t) G_context.bip32_path_len)) {
             return io_send_sw(SW_WRONG_DATA_LENGTH);
         }
+        if (!is_valid_bip44_prefix(G_context.bip32_path, G_context.bip32_path_len)) {
+            return io_send_sw(SW_INVALID_PATH);
+        }
         return io_send_sw(SW_OK);
 
     } else {  // parse transaction
@@ -96,7 +99,7 @@ static int handler_hash_tx_and_display_tx(bool is_blind_signing) {
 
     explicit_bzero(&second_hash, sizeof(second_hash));
     if (!res) {
-        return io_send_sw(SW_TX_HASH_FAIL);
+        return io_send_sw(SW_HASH_FAIL);
     } else {
         G_context.state = STATE_PARSED;
         return ui_display_transaction(is_blind_signing);
