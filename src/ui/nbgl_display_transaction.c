@@ -246,8 +246,12 @@ static int ui_display_bs_transaction() {
                                    &ICON_APP_ONTOLOGY,
                                    BLIND_SIGNING_TITLE,
                                    NULL,
+#ifdef SCREEN_SIZE_WALLET
                                    BLIND_SIGNING_CONTENT,
-                                   NULL,
+#else
+                                    NULL,
+#endif
+                                    NULL,
                                    review_choice);
     return 0;
 }
@@ -272,7 +276,11 @@ static int ui_display_normal_transaction() {
                        &ICON_APP_ONTOLOGY,
                        method->title,
                        NULL,
+#ifdef SCREEN_SIZE_WALLET
                        method->finish_title,
+#else
+                        NULL,
+#endif
                        review_choice);
     return 0;
 }

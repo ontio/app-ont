@@ -28,7 +28,7 @@ A. tx header
 Currently, the `version` of the transaction supported by the Ontology Network is 0x00.
 
 2. tx-type:
-The valid `tx-type` of the transaction inlcude two values:
+The valid `tx-type` of the transaction include two values:
 - 0xd1: the transaction is a native transaction or a neovm contract transaction.
 - 0xd2: the transaction is a wasmvm contract transaction.
 
