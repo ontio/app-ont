@@ -59,7 +59,7 @@ static inline bool methodcmp(const tx_parameter_t *param, const char *method_nam
 }
 
 /**
- * Validate a BIP-32 path prefix (e.g., 44'/1024' or 44'/888').
+ * Validate a BIP-32 path prefix (44'/1024' or 44'/888').
  *
  * @param[in] path
  *   Pointer to the array representing the BIP-32 path.
