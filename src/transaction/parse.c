@@ -103,6 +103,7 @@ static bool parse_pk_amount_pairs(buffer_t *buf, tx_parameter_t *pairs, size_t *
 
     if (!parse_amount(buf, &pairs[0]) || !convert_param_to_uint64_le(&pairs[0], &pks_num) ||
         pks_num == 0 ||
+        pks_num * 2 + 1 + *cur > PARAMETERS_MAX_NUM ||
         !parse_check_constant(buf, OPCODE_PARAM_END, ARRAY_LENGTH(OPCODE_PARAM_END))) {
         return false;
     }
@@ -184,7 +185,8 @@ bool parse_trasfer_state(buffer_t *buf, tx_parameter_t *transfer_state, size_t *
     LEDGER_ASSERT(transfer_state != NULL, "NULL transfer_state");
     LEDGER_ASSERT(cur != NULL, "NULL cur");
 
-    if (!parse_check_constant(buf, OPCODE_ST_BEGIN, ARRAY_LENGTH(OPCODE_ST_BEGIN)) ||
+    if ((*cur + 3 > PARAMETERS_MAX_NUM) ||
+        !parse_check_constant(buf, OPCODE_ST_BEGIN, ARRAY_LENGTH(OPCODE_ST_BEGIN)) ||
         !parse_address(buf, true, &transfer_state[0]) ||
         !parse_check_constant(buf, OPCODE_PARAM_END, ARRAY_LENGTH(OPCODE_PARAM_END)) ||
         !parse_address(buf, true, &transfer_state[1]) ||
@@ -213,6 +215,9 @@ bool parse_method_params(buffer_t *buf,
 
     for (; *params != PARAM_END; ++params) {
         (*params_num)++;
+        if (cur >= PARAMETERS_MAX_NUM) {
+            return false;
+        }
         switch (*params) {
             case PARAM_ADDR:
                 if (!parse_address(buf,
