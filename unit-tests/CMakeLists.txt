@@ -53,7 +53,6 @@ include_directories($ENV{BOLOS_SDK}/target/nanos2/include)
 include_directories($ENV{BOLOS_SDK}/lib_cxng/include)
 
 add_executable(test_tx_parser test_tx_parser.c)
-# add_executable(test_tx_utils test_tx_utils.c)
 
 add_library(base58 SHARED $ENV{BOLOS_SDK}/lib_standard_app/base58.c)
 add_library(bip32 SHARED $ENV{BOLOS_SDK}/lib_standard_app/bip32.c)
@@ -85,10 +84,5 @@ target_link_libraries(test_tx_parser PUBLIC
                       transaction_utils
                       transaction_contract)
 
-# target_link_libraries(test_tx_utils PUBLIC
-#                       cmocka
-#                       gcov
-#                       transaction_utils)
 
 add_test(test_tx_parser test_tx_parser)
-#add_test(test_tx_utils test_tx_utils)
