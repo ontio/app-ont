@@ -229,21 +229,26 @@ static parser_status_e transaction_deserialize_contract(buffer_t *buf, transacti
 
     size_t os = buf->offset;
     switch (tx->header.tx_type) {
-        case 0xd1:
+        case 0xd1: {
+            if(!buffer_can_read(buf, ARRAY_LENGTH(OPCODE_END) + ADDRESS_SCRIPT_HASH_LEN + 1)) {
+                return PARSING_BYTECODE_WRONG;
+            }
             if (buf->ptr[buf->size - ARRAY_LENGTH(OPCODE_END) - ADDRESS_SCRIPT_HASH_LEN - 1] !=
                 OPCODE_APPCALL[0]) {  //'n' for the native contract
                 tx->contract.type = NATIVE_CONTRACT;
-                if ((!buffer_seek_set(buf, buf->size - NATIVE_CONTRACT_CONSTANT_LENGTH) ||
-                     !parse_address(buf, true, &(tx->contract.addr)) ||
-                     !parse_check_constant(buf, OPCODE_SYSCALL, ARRAY_LENGTH(OPCODE_SYSCALL)) ||
-                     !parse_check_constant(buf, NATIVE_INVOKE, ARRAY_LENGTH(NATIVE_INVOKE)) ||
-                     !parse_check_constant(buf, OPCODE_END, ARRAY_LENGTH(OPCODE_END))) ||
+                if (!buffer_can_read(buf, NATIVE_CONTRACT_CONSTANT_LENGTH) ||
+                    !buffer_seek_set(buf, buf->size - NATIVE_CONTRACT_CONSTANT_LENGTH) ||
+                    !parse_address(buf, true, &(tx->contract.addr)) ||
+                    !parse_check_constant(buf, OPCODE_SYSCALL, ARRAY_LENGTH(OPCODE_SYSCALL)) ||
+                    !parse_check_constant(buf, NATIVE_INVOKE, ARRAY_LENGTH(NATIVE_INVOKE)) ||
+                    !parse_check_constant(buf, OPCODE_END, ARRAY_LENGTH(OPCODE_END)) ||
                     buf->offset != buf->size || !buffer_seek_set(buf, os)) {
                     return PARSING_BYTECODE_WRONG;
                 }
             } else {  // 0x67 for the neovm contract
                 tx->contract.type = NEOVM_CONTRACT;
-                if (!buffer_seek_set(buf, buf->size - NEOVM_CONTRACT_CONSTANT_LENGTH) ||
+                if (!buffer_can_read(buf, NEOVM_CONTRACT_CONSTANT_LENGTH) ||
+                    !buffer_seek_set(buf, buf->size - NEOVM_CONTRACT_CONSTANT_LENGTH) ||
                     !parse_check_constant(buf, OPCODE_APPCALL, ARRAY_LENGTH(OPCODE_APPCALL)) ||
                     !parse_address(buf, false, &(tx->contract.addr)) ||
                     !parse_check_constant(buf, OPCODE_END, ARRAY_LENGTH(OPCODE_END)) ||
@@ -252,6 +257,7 @@ static parser_status_e transaction_deserialize_contract(buffer_t *buf, transacti
                 }
             }
             break;
+        }
         case 0xd2:
             tx->contract.type = WASMVM_CONTRACT;
             if (!parse_address(buf, false, &(tx->contract.addr))) {
@@ -295,6 +301,11 @@ static parser_status_e transaction_deserialize_method(buffer_t *buf, transaction
         }
         default:
             return PARSING_BYTECODE_WRONG;
+    }
+
+    // Validate sEnd to prevent underflow
+    if (sEnd < sBegin || sEnd > buf->size || sEnd < sBegin + (ARRAY_LENGTH(OPCODE_PACK) - 2)) {
+        return PARSING_BYTECODE_WRONG;
     }
 
     size_t method_intent_length = 0;
