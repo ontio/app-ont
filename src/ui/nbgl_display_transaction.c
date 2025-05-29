@@ -111,7 +111,8 @@ static bool handle_params(transaction_t *tx,
         }
 
         size_t curr = *nbPairs;
-        for (uint8_t i = 0; i < pubkey_num && i < MAX_PUBKEY_DISPLAY; i++) {
+        uint8_t max_display_num = (pubkey_num < MAX_PUBKEY_DISPLAY) ? (uint8_t)pubkey_num : MAX_PUBKEY_DISPLAY;
+        for (uint8_t i = 0; i < max_display_num; i++) {
             const char *label_pk;
             if (i == 0 && pubkey_num == 1) {
                 label_pk = PEER_PUBKEY;
