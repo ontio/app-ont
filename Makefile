@@ -71,10 +71,8 @@ VARIANT_PARAM = COIN
 VARIANT_VALUES = ontology
 
 # Enabling DEBUG flag will enable PRINTF and disable optimizations
-DEBUG = 1
+#DEBUG = 1
 
-#APP_LOAD_PARAMS = --appFlags 0x240
-#APPFLAGS = 0x240
 ########################################
 #     Application custom permissions   #
 ########################################
