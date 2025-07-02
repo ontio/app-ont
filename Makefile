@@ -28,7 +28,7 @@ DEFINES += $(TARGET_NAME)
 #        Mandatory configuration       #
 ########################################
 # Application name
-APPNAME = "Ontology"
+APPNAME = "ONT"
 
 # Application version
 APPVERSION_M = 2
